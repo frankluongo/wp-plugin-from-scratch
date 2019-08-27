@@ -1,7 +1,8 @@
-app/wordpress/wp-content/*
-app/wordpress/wp-admin/*
+app/wordpress/wp-content/themes
+app/wordpress/wp-content/*.*
+app/wordpress/wp-content/plugins/*.*
+app/wordpress/wp-admin
 app/wordpress/wp-includes
-app/wordpress/*
+app/wordpress/*.*
 
-!app/wordpress/wp-content/plugins
 !app/wordpress/wp-config.php
