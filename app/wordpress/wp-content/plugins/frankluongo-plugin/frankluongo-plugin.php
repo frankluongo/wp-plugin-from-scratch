@@ -19,23 +19,31 @@
 
 // SECOND: Create your Plugin Class
 class FrankluongoPlugin {
-  // function __construct() {
-  // }
+  function __construct() {
+    // Initialize the new post type on WP Init
+    add_action('init', array($this, 'custom_post_type'));
+  }
 
   function activate() {
-    // ex. Generate a custom Post Type
-    // ex. Flush Rewrite Rules
-    echo 'The plugin was activated';
+    // Add the custom post type on activate as a fail safe for the construct action
+    $this->custom_post_type();
+    // When the post type is added, reset the permissions
+    flush_rewrite_rules();
   }
 
   function deactivate() {
-    // ex. Flush Rewrite Rules
-    echo 'The plugin was deactivated';
+    flush_rewrite_rules();
   }
 
   function uninstall() {
-    // ex. Delete Custom Post Type
 
+  }
+
+  function custom_post_type() {
+    register_post_type( 'book', [
+      'public' => true,
+      'label' => 'Books'
+    ]);
   }
 }
 
@@ -44,11 +52,5 @@ if (class_exists( 'FrankluongoPlugin' ) ) {
   $frankluongoPlugin = new FrankluongoPlugin();
 }
 
-//  Wordpress has 3 built-in events that occur within a plugin lifecycle
-  // Activation
-  register_activation_hook(__FILE__, array($frankluongoPlugin, 'activate'));
-  // Deactivation
-  register_deactivation_hook(__FILE__, array($frankluongoPlugin, 'deactivate'));
-  // Uninstallation
-  // Coming later...
-
+register_activation_hook(__FILE__, array($frankluongoPlugin, 'activate'));
+register_deactivation_hook(__FILE__, array($frankluongoPlugin, 'deactivate'));
