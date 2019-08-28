@@ -13,7 +13,7 @@ const config = {
   entry: paths.src,
   output: {
     path: paths.dist,
-    filename: 'frankluongo-plugin.js.js',
+    filename: 'frankluongo-plugin.js',
   },
   module: {
     rules: [
