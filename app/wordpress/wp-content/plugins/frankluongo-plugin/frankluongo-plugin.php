@@ -20,23 +20,33 @@
 // Make sure class doesn't exist already
 if (!class_exists( 'FrankluongoPlugin' ) ) {
 
-  // Create your Plugin Class
   class FrankluongoPlugin {
-
-    // Static
-    // A static methods allows you to use it without initializing the class
+    public $plugin_name;
 
     function __construct() {
-      $this->create_post_type();
-    }
-
-    protected function create_post_type() {
-      add_action('init', array($this, 'custom_post_type'));
+      $this->plugin_name = plugin_basename(__FILE__);
     }
 
     function register() {
+      add_action('init', array($this, 'custom_post_type'));
       // add_action('admin_enqueue_scripts', array($this, 'enqueue'));
       add_action('wp_enqueue_scripts', array($this, 'enqueue'));
+      add_action('admin_menu', array($this, 'add_admin_pages'));
+      add_filter("plugin_action_links_$this->plugin_name", array($this, 'settings_link'));
+    }
+
+    public function settings_link($links) {
+      $settings_link = '<a href="admin.php?page=frankluongo_plugin">Settings</a>';
+      array_push($links, $settings_link);
+      return $links;
+    }
+
+    public function add_admin_pages() {
+      add_menu_page('Frankluongo Plugin', 'Frankluongo', 'manage_options', 'frankluongo_plugin', array($this, 'admin_index'), 'dashicons-store', 110);
+    }
+
+    public function admin_index() {
+      require_once plugin_dir_path(__FILE__) . 'templates/admin.php';
     }
 
     function custom_post_type() {
