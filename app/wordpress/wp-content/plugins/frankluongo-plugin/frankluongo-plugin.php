@@ -19,9 +19,16 @@
 
 // SECOND: Create your Plugin Class
 class FrankluongoPlugin {
-  function __construct() {
+  // function __construct() {
+  // }
+
+  function register() {
     // Initialize the new post type on WP Init
     add_action('init', array($this, 'custom_post_type'));
+    // Initialize CSS in the Admin
+    // add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+    // Initialize CSS in the Frontend
+    add_action('wp_enqueue_scripts', array($this, 'enqueue'));
   }
 
   function activate() {
@@ -45,11 +52,18 @@ class FrankluongoPlugin {
       'label' => 'Books'
     ]);
   }
+
+  function enqueue() {
+    // Enqeue All Our Scripts & Styles
+    wp_enqueue_style('frankluongo-plugin', plugins_url('/assets/frankluongo-plugin.css', __FILE__));
+    wp_enqueue_script('frankluongo-plugin', plugins_url('/assets/frankluongo-plugin.js', __FILE__));
+  }
 }
 
 // THIRD: Make sure Class exists, and if it does, call it
 if (class_exists( 'FrankluongoPlugin' ) ) {
   $frankluongoPlugin = new FrankluongoPlugin();
+  $frankluongoPlugin->register();
 }
 
 register_activation_hook(__FILE__, array($frankluongoPlugin, 'activate'));

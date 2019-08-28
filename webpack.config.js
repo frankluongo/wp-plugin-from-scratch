@@ -5,7 +5,7 @@ const paths = {
   src: './plugin/index.js',
   dist: path.resolve(
     __dirname,
-    'app/wordpress/plugins/frankluongo-plugin/assets',
+    'app/wordpress/wp-content/plugins/frankluongo-plugin/assets',
   ),
 };
 
