@@ -19,12 +19,31 @@
 
 // SECOND: Create your Plugin Class
 class FrankluongoPlugin {
-  // function __construct() {
-  // }
 
-  function register() {
+  // Public -- Everyone
+  // Method that can be accessed everywhere -- This is the default
+
+  // Protected -- Class and Extended Classes
+  // Method that can only be accessed within the class itself -- The Class (or an extended class of it) has to call the method, nothing else can
+
+  // Private -- Only This Class
+  // Method that can only be accessed with the clas itself and nothing else
+
+  public $var1 = 1;
+
+  protected $array1 = array();
+
+  function __construct() {
+    $this->test();
+    $this->create_post_type();
+  }
+
+  protected function create_post_type() {
     // Initialize the new post type on WP Init
     add_action('init', array($this, 'custom_post_type'));
+  }
+
+  public function register() {
     // Initialize CSS in the Admin
     // add_action('admin_enqueue_scripts', array($this, 'enqueue'));
     // Initialize CSS in the Frontend
@@ -42,6 +61,10 @@ class FrankluongoPlugin {
     flush_rewrite_rules();
   }
 
+  private function test() {
+    echo 'hi!';
+  }
+
   function uninstall() {
 
   }
@@ -57,6 +80,12 @@ class FrankluongoPlugin {
     // Enqeue All Our Scripts & Styles
     wp_enqueue_style('frankluongo-plugin', plugins_url('/assets/frankluongo-plugin.css', __FILE__));
     wp_enqueue_script('frankluongo-plugin', plugins_url('/assets/frankluongo-plugin.js', __FILE__));
+  }
+}
+
+class SecondClass extends FrankluongoPlugin() {
+  function register_post_type() {
+    $this->create_post_type();
   }
 }
 
